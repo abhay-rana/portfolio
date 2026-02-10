@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { cn } from "~/lib/cn";
 import type { Skill } from "~/types/data";
 
@@ -7,16 +10,42 @@ interface SkillBadgeProps {
 }
 
 export function SkillBadge({ skill, className }: SkillBadgeProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <div className={cn("flex items-center gap-3 rounded-lg bg-zinc-900 px-4 py-3", className)}>
-      <span className="text-sm font-medium text-zinc-200">{skill.name}</span>
-      <div className="flex-1 h-1.5 rounded-full bg-zinc-800">
-        <div
-          className="h-full rounded-full bg-blue-500 transition-all duration-500"
-          style={{ width: `${skill.proficiency}%` }}
-        />
+    <div
+      className={cn(
+        "group glass glass-hover rounded-lg px-4 py-3 cursor-pointer transition-all duration-300",
+        isExpanded && "glow-blue-sm",
+        className
+      )}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-[#fafafa]">{skill.name}</span>
+        <span
+          className={cn(
+            "text-xs font-mono transition-all duration-300",
+            isExpanded ? "text-blue-400" : "text-[#a1a1aa]/60"
+          )}
+        >
+          {skill.proficiency}%
+        </span>
       </div>
-      <span className="text-xs text-zinc-500">{skill.proficiency}%</span>
+      <div
+        className={cn(
+          "overflow-hidden transition-all duration-300",
+          isExpanded ? "max-h-4 mt-2 opacity-100" : "max-h-0 opacity-0"
+        )}
+      >
+        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-700 ease-out"
+            style={{ width: isExpanded ? `${skill.proficiency}%` : "0%" }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

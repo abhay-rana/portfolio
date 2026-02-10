@@ -18,12 +18,15 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg";
+    "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-lg cursor-pointer";
 
   const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
-    secondary: "bg-zinc-800 text-zinc-100 hover:bg-zinc-700",
-    outline: "border border-zinc-700 text-zinc-300 hover:bg-zinc-800",
+    primary:
+      "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40",
+    secondary:
+      "glass text-[#fafafa] hover:bg-white/10",
+    outline:
+      "border border-white/10 text-[#a1a1aa] hover:text-[#fafafa] hover:border-white/20 hover:bg-white/5",
   };
 
   const sizes = {

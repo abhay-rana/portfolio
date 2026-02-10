@@ -15,24 +15,30 @@ export function Contact() {
           subtitle="Have a project in mind or just want to say hello?"
         />
         <div className="flex flex-col items-center gap-4">
-          <div className="flex items-center gap-2 text-zinc-400">
-            <Mail size={18} />
+          <div className="flex items-center gap-2 text-[#a1a1aa]">
+            <Mail size={18} className="text-blue-400/60" />
             <a
               href={`mailto:${personalInfo.email}`}
-              className="hover:text-zinc-200 transition-colors"
+              className="hover:text-blue-400 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]"
             >
               {personalInfo.email}
             </a>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
-            <MapPin size={18} />
+          <div className="flex items-center gap-2 text-[#a1a1aa]">
+            <MapPin size={18} className="text-blue-400/60" />
             <span>{personalInfo.location}</span>
           </div>
-          <div className="mt-4 flex gap-4">
+          <div className="mt-6 flex gap-4">
             {personalInfo.socials.map((social) => (
-              <Button key={social.platform} href={social.url} variant="outline" size="sm">
+              <a
+                key={social.platform}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 text-sm glass rounded-lg text-[#a1a1aa] hover:text-blue-400 transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-500/30"
+              >
                 {social.platform}
-              </Button>
+              </a>
             ))}
           </div>
           <div className="mt-6">

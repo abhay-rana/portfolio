@@ -12,16 +12,18 @@ export function TechStack() {
     <AnimatedSection id="skills">
       <div className="mx-auto max-w-4xl">
         <SectionHeading title="Tech Stack" subtitle="Technologies I work with" />
-        <div className="space-y-10">
+        <div className="space-y-12">
           {skillCategories.map((category) => (
             <div key={category.category}>
-              <h3 className="mb-4 text-lg font-semibold text-zinc-200">{category.category}</h3>
+              <h3 className="mb-5 text-sm font-mono font-medium uppercase tracking-[0.15em] text-blue-400">
+                {category.category}
+              </h3>
               <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="grid gap-3 sm:grid-cols-2"
+                className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
               >
                 {category.skills.map((skill) => (
                   <motion.div key={skill.name} variants={staggerItem}>

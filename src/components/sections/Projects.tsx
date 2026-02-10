@@ -22,9 +22,13 @@ export function Projects() {
           viewport={{ once: true }}
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {featured.map((project) => (
-            <motion.div key={project.id} variants={staggerItem}>
-              <ProjectCard project={project} className="h-full" />
+          {featured.map((project, i) => (
+            <motion.div
+              key={project.id}
+              variants={staggerItem}
+              className={i === 0 ? "md:col-span-2" : ""}
+            >
+              <ProjectCard project={project} featured={i === 0} className="h-full" />
             </motion.div>
           ))}
           {other.map((project) => (

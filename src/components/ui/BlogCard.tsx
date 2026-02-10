@@ -14,26 +14,27 @@ export function BlogCard({ post, className }: BlogCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "group block rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 transition-all duration-300 hover:border-zinc-700",
+        "group block rounded-xl glass glass-hover p-6 transition-all duration-300",
+        "hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]",
         className
       )}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-2 text-xs text-zinc-500 mb-2">
+          <div className="flex items-center gap-2 text-xs text-[#a1a1aa]/60 mb-2 font-mono">
             <time>{post.date}</time>
             <span>&middot;</span>
             <span>{post.readTime}</span>
           </div>
-          <h3 className="text-lg font-semibold text-zinc-100 group-hover:text-blue-400 transition-colors">
+          <h3 className="text-lg font-semibold text-[#fafafa] group-hover:text-blue-400 transition-colors">
             {post.title}
           </h3>
-          <p className="mt-2 text-sm text-zinc-400 leading-relaxed">{post.excerpt}</p>
+          <p className="mt-2 text-sm text-[#a1a1aa] leading-relaxed">{post.excerpt}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs text-zinc-400"
+                className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-xs text-[#a1a1aa] font-mono"
               >
                 {tag}
               </span>
@@ -42,7 +43,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
         </div>
         <ArrowUpRight
           size={18}
-          className="text-zinc-600 group-hover:text-blue-400 transition-colors shrink-0 ml-4"
+          className="text-[#a1a1aa]/40 group-hover:text-blue-400 group-hover:rotate-12 transition-all duration-300 shrink-0 ml-4"
         />
       </div>
     </a>

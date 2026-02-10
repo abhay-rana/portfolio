@@ -18,24 +18,24 @@ export function Experience() {
           viewport={{ once: true }}
           className="relative space-y-8"
         >
-          {/* Timeline line */}
-          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-zinc-800" />
+          {/* Glowing timeline line */}
+          <div className="absolute left-[7px] top-2 bottom-2 w-[2px] timeline-line" />
 
           {experience.map((exp) => (
-            <motion.div key={exp.id} variants={staggerItem} className="relative pl-8">
-              {/* Timeline dot */}
-              <div className="absolute left-0 top-2 h-[15px] w-[15px] rounded-full border-2 border-zinc-700 bg-zinc-950" />
+            <motion.div key={exp.id} variants={staggerItem} className="relative pl-10">
+              {/* Pulsing timeline dot */}
+              <div className="absolute left-0 top-3 h-[16px] w-[16px] rounded-full border-2 border-blue-500 bg-[#0a0a0a] timeline-dot" />
 
-              <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+              <div className="glass glass-hover rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                  <h3 className="text-lg font-semibold text-zinc-100">{exp.role}</h3>
-                  <span className="text-sm text-zinc-500">{exp.period}</span>
+                  <h3 className="text-lg font-semibold text-[#fafafa]">{exp.role}</h3>
+                  <span className="text-sm text-[#a1a1aa]/60 font-mono">{exp.period}</span>
                 </div>
                 <p className="text-sm font-medium text-blue-400 mt-1">{exp.company}</p>
                 <ul className="mt-4 space-y-2">
                   {exp.highlights.map((highlight, i) => (
-                    <li key={i} className="text-sm text-zinc-400 leading-relaxed flex gap-2">
-                      <span className="text-zinc-600 shrink-0">&bull;</span>
+                    <li key={i} className="text-sm text-[#a1a1aa] leading-relaxed flex gap-2">
+                      <span className="text-blue-500/50 shrink-0">&bull;</span>
                       {highlight}
                     </li>
                   ))}
@@ -44,7 +44,7 @@ export function Experience() {
                   {exp.techUsed.map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs text-zinc-400"
+                      className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-xs text-[#a1a1aa] font-mono"
                     >
                       {tech}
                     </span>
