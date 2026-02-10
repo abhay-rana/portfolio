@@ -34,9 +34,11 @@ body {
   border: 1px solid var(--color-border);
 }
 
-.glass-hover:hover {
-  border-color: var(--color-border-hover);
-  background: rgba(255, 255, 255, 0.08);
+@media (hover: hover) {
+  .glass-hover:hover {
+    border-color: var(--color-border-hover);
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* Glow Utilities — Warm Red */
@@ -284,10 +286,12 @@ body::before {
   overflow: hidden;
 }
 
-.bento-card:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.08);
+@media (hover: hover) {
+  .bento-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.08);
+  }
 }
 
 /* Custom scrollbar */

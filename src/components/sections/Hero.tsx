@@ -92,7 +92,7 @@ export function Hero() {
 
           <button
             onClick={copyEmail}
-            className="inline-flex items-center gap-2 text-[#a1a1aa] text-sm hover:text-[#fafafa] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 text-[#a1a1aa] text-sm hover:text-[#fafafa] active:scale-95 active:text-[#fafafa] transition-colors cursor-pointer"
           >
             {personalInfo.email}
             {copied ? (

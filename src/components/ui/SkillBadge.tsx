@@ -19,6 +19,7 @@ export function SkillBadge({ skill, className }: SkillBadgeProps) {
         isExpanded && "glow-accent-sm",
         className
       )}
+      onClick={() => setIsExpanded((prev) => !prev)}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
