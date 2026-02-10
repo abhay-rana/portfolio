@@ -5,46 +5,53 @@ import type { BlogPost } from "~/types/data";
 interface BlogCardProps {
   post: BlogPost;
   className?: string;
+  featured?: boolean;
 }
 
-export function BlogCard({ post, className }: BlogCardProps) {
+export function BlogCard({ post, className, featured = false }: BlogCardProps) {
   return (
     <a
       href={post.url}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "group block rounded-xl glass glass-hover p-6 transition-all duration-300",
-        "hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]",
+        "group bento-card block p-6 transition-all duration-300",
+        featured ? "bento-2x2" : "bento-1x1",
         className
       )}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 text-xs text-[#a1a1aa]/60 mb-2 font-mono">
-            <time>{post.date}</time>
-            <span>&middot;</span>
-            <span>{post.readTime}</span>
-          </div>
-          <h3 className="text-lg font-semibold text-[#fafafa] group-hover:text-red-400 transition-colors">
-            {post.title}
-          </h3>
-          <p className="mt-2 text-sm text-[#a1a1aa] leading-relaxed">{post.excerpt}</p>
-          <div className="mt-3 flex flex-wrap gap-2">
+      <div className="flex flex-col h-full">
+        <div className="flex items-center gap-2 text-xs text-zinc-500 mb-3">
+          <time>{post.date}</time>
+          <span className="w-1 h-1 rounded-full bg-red-500" />
+          <span>{post.readTime}</span>
+        </div>
+        <h3 className={cn(
+          "font-extrabold text-white group-hover:text-red-400 transition-colors",
+          featured ? "text-2xl" : "text-base"
+        )}>
+          {post.title}
+        </h3>
+        <p className={cn(
+          "mt-2 text-[#b4b4b4] leading-relaxed flex-1",
+          featured ? "text-sm" : "text-xs line-clamp-2"
+        )}>
+          {post.excerpt}
+        </p>
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-xs text-[#a1a1aa] font-mono"
-              >
+              <span key={tag} className="flex items-center gap-1.5 text-[10px] text-zinc-500">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500/60" />
                 {tag}
               </span>
             ))}
           </div>
+          <ArrowUpRight
+            size={16}
+            className="text-zinc-600 group-hover:text-red-400 transition-colors shrink-0"
+          />
         </div>
-        <ArrowUpRight
-          size={18}
-          className="text-[#a1a1aa]/40 group-hover:text-red-400 group-hover:rotate-12 transition-all duration-300 shrink-0 ml-4"
-        />
       </div>
     </a>
   );

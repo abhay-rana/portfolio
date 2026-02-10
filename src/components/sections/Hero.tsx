@@ -33,10 +33,34 @@ export function Hero() {
         animate="visible"
         className="relative z-10 mx-auto max-w-4xl text-center"
       >
-        {/* Large headline */}
+        {/* Intro label */}
+        <motion.p
+          variants={fadeInUp}
+          className="text-lg text-[#a1a1aa]"
+        >
+          Hey, I&apos;m
+        </motion.p>
+
+        {/* Name — THE focal point */}
         <motion.h1
           variants={fadeInUp}
-          className="text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl text-[#fafafa] leading-[1.1]"
+          className="mt-2 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#fafafa] leading-[1.1]"
+          style={{ textShadow: "0 0 60px rgba(239, 68, 68, 0.2)" }}
+        >
+          {personalInfo.name.toUpperCase()}
+        </motion.h1>
+
+        {/* Role badge */}
+        <motion.div variants={fadeInUp} className="mt-4 flex justify-center">
+          <span className="inline-flex items-center bg-red-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+            {personalInfo.title}
+          </span>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          variants={fadeInUp}
+          className="mt-6 text-xl sm:text-2xl text-[#a1a1aa] leading-relaxed"
         >
           I build and craft digital experiences{" "}
           <br className="hidden sm:block" />
@@ -51,25 +75,7 @@ export function Hero() {
           >
             real impact
           </span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          variants={fadeInUp}
-          className="mt-6 text-lg text-[#a1a1aa]"
-        >
-          Hello, I&apos;m{" "}
-          <span className="text-[#fafafa] font-semibold">
-            {personalInfo.name}
-          </span>
         </motion.p>
-
-        {/* Role badge */}
-        <motion.div variants={fadeInUp} className="mt-4 flex justify-center">
-          <span className="inline-flex items-center bg-red-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">
-            {personalInfo.title}
-          </span>
-        </motion.div>
 
         {/* CTAs */}
         <motion.div

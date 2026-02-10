@@ -10,13 +10,15 @@ import { Testimonials } from "~/components/sections/Testimonials";
 import { ResumeCTA } from "~/components/sections/ResumeCTA";
 import { Contact } from "~/components/sections/Contact";
 import { StarField } from "~/components/effects/StarField";
+import { CursorFollower } from "~/components/effects/CursorFollower";
 
 export default function Home() {
   return (
     <>
+      <CursorFollower />
       <StarField />
       <Navbar />
-      <main className="relative z-10">
+      <main className="relative z-10 pt-16">
         <Hero />
         <About />
         <Projects />

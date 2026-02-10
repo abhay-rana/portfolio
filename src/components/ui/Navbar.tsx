@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navItems } from "~/data/navigation";
+import { personalInfo } from "~/data/personal";
 import { useActiveSection } from "~/hooks/useActiveSection";
 import { cn } from "~/lib/cn";
 
@@ -12,74 +14,86 @@ export function Navbar() {
   const activeSection = useActiveSection(sectionIds);
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
-      {/* Desktop floating pill */}
-      <div className="hidden md:flex items-center gap-1 rounded-2xl bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 px-2 py-2">
-        {navItems.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "relative text-sm px-3 py-1.5 rounded-xl transition-all duration-200",
-              activeSection === item.href.replace("#", "")
-                ? "bg-red-500/15 text-red-400"
-                : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
-            )}
-          >
-            {item.label}
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl">
+      <div className="rounded-2xl bg-zinc-900/90 backdrop-blur-xl border border-zinc-800 px-4 py-3 md:px-6">
+        <div className="flex items-center justify-between">
+          <a href="#hero" className="text-lg font-extrabold text-white">
+            {personalInfo.name.split(" ")[0]}
+            <span className="text-red-500">.</span>
           </a>
-        ))}
 
-        {/* CTA */}
-        <a
-          href="#contact"
-          className="ml-2 px-4 py-1.5 rounded-xl bg-red-500 text-white text-sm font-medium transition-all duration-200 hover:bg-red-600"
-        >
-          Contact
-        </a>
-      </div>
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.replace("#", "");
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "relative px-3 py-1.5 text-sm font-medium rounded-xl transition-colors",
+                    isActive
+                      ? "text-white"
+                      : "text-zinc-400 hover:text-zinc-200"
+                  )}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-xl bg-red-500/15 border border-red-500/30"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                </a>
+              );
+            })}
+          </div>
 
-      {/* Mobile floating pill */}
-      <div className="md:hidden">
-        <div className="flex items-center gap-3 rounded-2xl bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 px-4 py-2.5">
-          <span className="text-sm font-medium text-[#fafafa]">Menu</span>
+          {/* Mobile toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-zinc-400 hover:text-[#fafafa] transition-colors"
+            className="md:hidden text-zinc-400 hover:text-red-400 transition-colors"
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
-        {/* Mobile dropdown */}
-        {isOpen && (
-          <div className="mt-2 rounded-2xl bg-zinc-900/90 backdrop-blur-xl border border-zinc-800 px-3 py-3 flex flex-col gap-1">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "text-sm px-3 py-2 rounded-xl transition-all duration-200",
-                  activeSection === item.href.replace("#", "")
-                    ? "text-red-400 bg-red-500/10"
-                    : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
-                )}
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setIsOpen(false)}
-              className="mt-1 px-3 py-2 rounded-xl bg-red-500 text-white text-sm font-medium text-center transition-all duration-200 hover:bg-red-600"
-            >
-              Contact
-            </a>
-          </div>
-        )}
       </div>
+
+      {/* Mobile full-screen overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden mt-2 rounded-2xl bg-zinc-900/95 backdrop-blur-xl border border-zinc-800 p-4"
+          >
+            <div className="flex flex-col gap-1">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.replace("#", "");
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "px-4 py-3 rounded-xl text-base font-bold transition-all",
+                      isActive
+                        ? "text-red-400 bg-red-500/10"
+                        : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                    )}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
