@@ -22,7 +22,7 @@ export function Navbar() {
             className={cn(
               "relative text-sm px-3 py-1.5 rounded-xl transition-all duration-200",
               activeSection === item.href.replace("#", "")
-                ? "text-white bg-red-500/15 text-red-400"
+                ? "bg-red-500/15 text-red-400"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
             )}
           >

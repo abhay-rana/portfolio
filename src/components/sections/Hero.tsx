@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Copy, Check } from "lucide-react";
+import { ArrowDown, ArrowRight, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { personalInfo } from "~/data/personal";
 import { fadeInUp, staggerContainer } from "~/lib/motion";
@@ -41,7 +41,14 @@ export function Hero() {
           I build and craft digital experiences{" "}
           <br className="hidden sm:block" />
           that deliver{" "}
-          <span className="font-serif italic text-[#fafafa]">
+          <span
+            className="font-serif italic"
+            style={{
+              background: "linear-gradient(135deg, #ef4444, #f97316)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             real impact
           </span>
         </motion.h1>
@@ -71,7 +78,7 @@ export function Hero() {
         >
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-zinc-700 text-[#fafafa] text-sm font-medium transition-all duration-300 hover:border-zinc-500 hover:bg-white/5"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-500 text-white text-sm font-medium shadow-lg shadow-red-500/25 transition-all duration-300 hover:bg-red-600"
           >
             Let&apos;s Connect
             <ArrowRight size={16} />
@@ -89,6 +96,21 @@ export function Hero() {
             )}
           </button>
         </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+      >
+        <a href="#about" aria-label="Scroll down" className="group">
+          <ArrowDown
+            size={20}
+            className="text-[#a1a1aa]/40 scroll-indicator group-hover:text-red-400 transition-colors"
+          />
+        </a>
       </motion.div>
     </section>
   );

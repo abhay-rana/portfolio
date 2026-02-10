@@ -37,7 +37,7 @@ export function GradientOrb() {
   }, [mouseX, mouseY]);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden" style={{ pointerEvents: "auto" }} aria-hidden="true">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       <motion.div
         className="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-[120px] pointer-events-none"
         style={{
