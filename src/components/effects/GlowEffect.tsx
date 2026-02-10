@@ -13,14 +13,14 @@ export function GlowEffect({ children, className, glowClassName }: GlowEffectPro
     <div
       className={cn(
         "relative group transition-shadow duration-300",
-        "hover:shadow-[0_0_40px_rgba(59,130,246,0.3)]",
+        "hover:shadow-[0_0_40px_rgba(239,68,68,0.3)]",
         className
       )}
     >
       <div
         className={cn(
           "absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm",
-          "bg-gradient-to-r from-blue-500/20 to-purple-500/20",
+          "bg-gradient-to-r from-red-500/20 to-orange-500/20",
           glowClassName
         )}
         aria-hidden="true"

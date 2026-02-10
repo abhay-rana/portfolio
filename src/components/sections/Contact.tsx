@@ -16,16 +16,16 @@ export function Contact() {
         />
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-center gap-2 text-[#a1a1aa]">
-            <Mail size={18} className="text-blue-400/60" />
+            <Mail size={18} className="text-red-400/60" />
             <a
               href={`mailto:${personalInfo.email}`}
-              className="hover:text-blue-400 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+              className="hover:text-red-400 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]"
             >
               {personalInfo.email}
             </a>
           </div>
           <div className="flex items-center gap-2 text-[#a1a1aa]">
-            <MapPin size={18} className="text-blue-400/60" />
+            <MapPin size={18} className="text-red-400/60" />
             <span>{personalInfo.location}</span>
           </div>
           <div className="mt-6 flex gap-4">
@@ -35,7 +35,7 @@ export function Contact() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 text-sm glass rounded-lg text-[#a1a1aa] hover:text-blue-400 transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-500/30"
+                className="px-4 py-2 text-sm glass rounded-lg text-[#a1a1aa] hover:text-red-400 transition-all duration-300 hover:shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:border-red-500/30"
               >
                 {social.platform}
               </a>

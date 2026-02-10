@@ -22,7 +22,7 @@ export function Button({
 
   const variants = {
     primary:
-      "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40",
+      "bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/20 hover:shadow-red-500/40",
     secondary:
       "glass text-[#fafafa] hover:bg-white/10",
     outline:

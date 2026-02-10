@@ -15,7 +15,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
       rel="noopener noreferrer"
       className={cn(
         "group block rounded-xl glass glass-hover p-6 transition-all duration-300",
-        "hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]",
+        "hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]",
         className
       )}
     >
@@ -26,7 +26,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
             <span>&middot;</span>
             <span>{post.readTime}</span>
           </div>
-          <h3 className="text-lg font-semibold text-[#fafafa] group-hover:text-blue-400 transition-colors">
+          <h3 className="text-lg font-semibold text-[#fafafa] group-hover:text-red-400 transition-colors">
             {post.title}
           </h3>
           <p className="mt-2 text-sm text-[#a1a1aa] leading-relaxed">{post.excerpt}</p>
@@ -43,7 +43,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
         </div>
         <ArrowUpRight
           size={18}
-          className="text-[#a1a1aa]/40 group-hover:text-blue-400 group-hover:rotate-12 transition-all duration-300 shrink-0 ml-4"
+          className="text-[#a1a1aa]/40 group-hover:text-red-400 group-hover:rotate-12 transition-all duration-300 shrink-0 ml-4"
         />
       </div>
     </a>

@@ -11,7 +11,6 @@ export function GradientOrb() {
   const springX = useSpring(mouseX, { stiffness: 50, damping: 30 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 30 });
 
-  // Transform 0-1 range to percentage strings for CSS left/top
   const leftPrimary = useTransform(springX, (v) => `${v * 100}%`);
   const topPrimary = useTransform(springY, (v) => `${v * 100}%`);
   const leftSecondary = useTransform(springX, (v) => `${v * 100 + 10}%`);
@@ -40,20 +39,19 @@ export function GradientOrb() {
   return (
     <div ref={containerRef} className="absolute inset-0 overflow-hidden" style={{ pointerEvents: "auto" }} aria-hidden="true">
       <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full opacity-30 blur-[120px] pointer-events-none"
+        className="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-[120px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.4) 0%, rgba(139,92,246,0.3) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(249,115,22,0.3) 40%, transparent 70%)",
           left: leftPrimary,
           top: topPrimary,
           x: "-50%",
           y: "-50%",
         }}
       />
-      {/* Secondary smaller orb for depth */}
       <motion.div
-        className="absolute w-[300px] h-[300px] rounded-full opacity-20 blur-[80px] pointer-events-none"
+        className="absolute w-[300px] h-[300px] rounded-full opacity-15 blur-[80px] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(139,92,246,0.5) 0%, rgba(59,130,246,0.2) 50%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(249,115,22,0.5) 0%, rgba(239,68,68,0.2) 50%, transparent 70%)",
           left: leftSecondary,
           top: topSecondary,
           x: "-50%",

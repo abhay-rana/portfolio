@@ -24,18 +24,18 @@ export function Experience() {
           {experience.map((exp) => (
             <motion.div key={exp.id} variants={staggerItem} className="relative pl-10">
               {/* Pulsing timeline dot */}
-              <div className="absolute left-0 top-3 h-[16px] w-[16px] rounded-full border-2 border-blue-500 bg-[#0a0a0a] timeline-dot" />
+              <div className="absolute left-0 top-3 h-[16px] w-[16px] rounded-full border-2 border-red-500 bg-[#0a0a0a] timeline-dot" />
 
-              <div className="glass glass-hover rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+              <div className="glass glass-hover rounded-xl p-6 transition-all duration-300 hover:shadow-[0_0_30px_rgba(239,68,68,0.1)]">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                   <h3 className="text-lg font-semibold text-[#fafafa]">{exp.role}</h3>
                   <span className="text-sm text-[#a1a1aa]/60 font-mono">{exp.period}</span>
                 </div>
-                <p className="text-sm font-medium text-blue-400 mt-1">{exp.company}</p>
+                <p className="text-sm font-medium text-red-400 mt-1">{exp.company}</p>
                 <ul className="mt-4 space-y-2">
                   {exp.highlights.map((highlight, i) => (
                     <li key={i} className="text-sm text-[#a1a1aa] leading-relaxed flex gap-2">
-                      <span className="text-blue-500/50 shrink-0">&bull;</span>
+                      <span className="text-red-500/50 shrink-0">&bull;</span>
                       {highlight}
                     </li>
                   ))}

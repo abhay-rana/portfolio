@@ -11,7 +11,7 @@ export function SectionHeading({ title, subtitle, className }: SectionHeadingPro
     <div className={cn("mb-16 text-center", className)}>
       <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-[#fafafa]">
         {title}
-        <span className="text-blue-500">.</span>
+        <span className="text-red-500">.</span>
       </h2>
       {subtitle && (
         <p className="mt-3 text-lg text-[#a1a1aa]">{subtitle}</p>

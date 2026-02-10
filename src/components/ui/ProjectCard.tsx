@@ -15,13 +15,13 @@ export function ProjectCard({ project, featured, className }: ProjectCardProps) 
     <div
       className={cn(
         "group rounded-xl glass glass-hover p-6 transition-all duration-300",
-        "hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)]",
+        "hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(239,68,68,0.15)]",
         featured && "md:col-span-2",
         className
       )}
     >
       <div className="mb-4">
-        <h3 className="text-xl font-semibold text-[#fafafa] group-hover:text-blue-400 transition-colors">
+        <h3 className="text-xl font-semibold text-[#fafafa] group-hover:text-red-400 transition-colors">
           {project.title}
         </h3>
         <p className="mt-2 text-sm text-[#a1a1aa] leading-relaxed">{project.description}</p>
@@ -44,7 +44,7 @@ export function ProjectCard({ project, featured, className }: ProjectCardProps) 
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm text-[#a1a1aa] hover:text-blue-400 transition-colors"
+            className="flex items-center gap-1.5 text-sm text-[#a1a1aa] hover:text-red-400 transition-colors"
           >
             <Github size={16} />
             Code
@@ -55,7 +55,7 @@ export function ProjectCard({ project, featured, className }: ProjectCardProps) 
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm text-[#a1a1aa] hover:text-blue-400 transition-colors"
+            className="flex items-center gap-1.5 text-sm text-[#a1a1aa] hover:text-red-400 transition-colors"
           >
             <ExternalLink size={16} />
             Live Demo

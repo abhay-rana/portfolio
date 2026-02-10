@@ -15,7 +15,7 @@ export function TechStack() {
         <div className="space-y-12">
           {skillCategories.map((category) => (
             <div key={category.category}>
-              <h3 className="mb-5 text-sm font-mono font-medium uppercase tracking-[0.15em] text-blue-400">
+              <h3 className="mb-5 text-sm font-mono font-medium uppercase tracking-[0.15em] text-red-400">
                 {category.category}
               </h3>
               <motion.div

@@ -16,7 +16,7 @@ export function SkillBadge({ skill, className }: SkillBadgeProps) {
     <div
       className={cn(
         "group glass glass-hover rounded-lg px-4 py-3 cursor-pointer transition-all duration-300",
-        isExpanded && "glow-blue-sm",
+        isExpanded && "glow-accent-sm",
         className
       )}
       onMouseEnter={() => setIsExpanded(true)}
@@ -27,7 +27,7 @@ export function SkillBadge({ skill, className }: SkillBadgeProps) {
         <span
           className={cn(
             "text-xs font-mono transition-all duration-300",
-            isExpanded ? "text-blue-400" : "text-[#a1a1aa]/60"
+            isExpanded ? "text-red-400" : "text-[#a1a1aa]/60"
           )}
         >
           {skill.proficiency}%
@@ -41,7 +41,7 @@ export function SkillBadge({ skill, className }: SkillBadgeProps) {
       >
         <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400 transition-all duration-700 ease-out"
             style={{ width: isExpanded ? `${skill.proficiency}%` : "0%" }}
           />
         </div>

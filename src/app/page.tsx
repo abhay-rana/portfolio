@@ -9,14 +9,14 @@ import { Blog } from "~/components/sections/Blog";
 import { Testimonials } from "~/components/sections/Testimonials";
 import { ResumeCTA } from "~/components/sections/ResumeCTA";
 import { Contact } from "~/components/sections/Contact";
-import { DotGrid } from "~/components/effects/DotGrid";
+import { StarField } from "~/components/effects/StarField";
 
 export default function Home() {
   return (
     <>
-      <DotGrid />
+      <StarField />
       <Navbar />
-      <main className="relative z-10 pt-16">
+      <main className="relative z-10">
         <Hero />
         <About />
         <Projects />
