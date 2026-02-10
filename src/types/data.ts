@@ -1,0 +1,80 @@
+export interface PersonalInfo {
+  name: string;
+  title: string;
+  tagline: string;
+  bio: string;
+  email: string;
+  location: string;
+  profileImage: string;
+  resumeUrl: string;
+  socials: SocialLink[];
+}
+
+export interface SocialLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  techStack: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  image: string;
+  featured: boolean;
+}
+
+export interface Experience {
+  id: string;
+  company: string;
+  role: string;
+  period: string;
+  highlights: string[];
+  techUsed: string[];
+}
+
+export interface SkillCategory {
+  category: string;
+  skills: Skill[];
+}
+
+export interface Skill {
+  name: string;
+  icon?: string;
+  proficiency: number; // 0-100
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime: string;
+  url: string;
+  tags: string[];
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  text: string;
+  avatar?: string;
+}
+
+export interface SiteConfig {
+  title: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  author: string;
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+}
