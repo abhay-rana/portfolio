@@ -1,6 +1,6 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { FileText } from "lucide-react";
 import { personalInfo } from "~/data/personal";
 import { AnimatedSection } from "~/components/ui/AnimatedSection";
 
@@ -25,8 +25,8 @@ export function ResumeCTA() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-red-600 to-orange-600 rounded-lg pulse-glow-btn transition-all duration-300 hover:from-red-500 hover:to-orange-500"
             >
-              <Download size={20} />
-              Download Resume
+              <FileText size={20} />
+              View Resume
             </a>
           </div>
         </div>
