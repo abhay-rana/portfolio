@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navItems } from "~/data/navigation";
@@ -10,6 +12,8 @@ import { cn } from "~/lib/cn";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const sectionIds = navItems.map((item) => item.href.replace("#", ""));
   const activeSection = useActiveSection(sectionIds);
 
@@ -17,19 +21,21 @@ export function Navbar() {
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl">
       <div className="rounded-2xl bg-zinc-900/90 backdrop-blur-xl border border-zinc-800 px-4 py-3 md:px-6">
         <div className="flex items-center justify-between">
-          <a href="#hero" className="text-lg font-extrabold text-white">
+          <Link href={isHome ? "#hero" : "/"} className="text-lg font-extrabold text-white">
             {personalInfo.name.split(" ")[0]}
             <span className="text-red-500">.</span>
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
-              const isActive = activeSection === item.href.replace("#", "");
+              const isActive = isHome
+                ? activeSection === item.href.replace("#", "")
+                : item.href === "#blog" && pathname.startsWith("/blog");
               return (
-                <a
+                <Link
                   key={item.href}
-                  href={item.href}
+                  href={isHome ? item.href : `/${item.href}`}
                   className={cn(
                     "relative px-3 py-1.5 text-sm font-medium rounded-xl transition-colors",
                     isActive
@@ -45,7 +51,7 @@ export function Navbar() {
                     />
                   )}
                   <span className="relative z-10">{item.label}</span>
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -73,11 +79,13 @@ export function Navbar() {
           >
             <div className="flex flex-col gap-1">
               {navItems.map((item) => {
-                const isActive = activeSection === item.href.replace("#", "");
+                const isActive = isHome
+                  ? activeSection === item.href.replace("#", "")
+                  : item.href === "#blog" && pathname.startsWith("/blog");
                 return (
-                  <a
+                  <Link
                     key={item.href}
-                    href={item.href}
+                    href={isHome ? item.href : `/${item.href}`}
                     onClick={() => setIsOpen(false)}
                     className={cn(
                       "px-4 py-3 rounded-xl text-base font-bold transition-all",
@@ -87,7 +95,7 @@ export function Navbar() {
                     )}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 );
               })}
             </div>

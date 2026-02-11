@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { siteConfig } from "~/data/site-config";
+import { StarField } from "~/components/effects/StarField";
+import { Navbar } from "~/components/ui/Navbar";
+import { Footer } from "~/components/ui/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -18,6 +21,14 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   style: ["normal", "italic"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -49,7 +60,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased bg-[#0a0a0a] text-[#fafafa]`}
       >
-        {children}
+        <StarField />
+        <Navbar />
+        <main className="relative z-10 pt-16">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

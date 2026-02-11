@@ -1,28 +1,33 @@
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { cn } from "~/lib/cn";
-import type { BlogPost } from "~/types/data";
+import type { BlogPostMeta } from "~/types/data";
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: BlogPostMeta;
   className?: string;
   featured?: boolean;
 }
 
 export function BlogCard({ post, className, featured = false }: BlogCardProps) {
+  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
-    <a
-      href={post.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/blog/${post.slug}`}
       className={cn(
         "group bento-card block p-6 transition-all duration-300",
-        featured ? "bento-2x2" : "bento-1x1",
+        featured ? "bento-2x2 min-h-[280px]" : "bento-1x1",
         className
       )}
     >
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 text-xs text-zinc-500 mb-3">
-          <time>{post.date}</time>
+          <time dateTime={post.date}>{formattedDate}</time>
           <span className="w-1 h-1 rounded-full bg-red-500" />
           <span>{post.readTime}</span>
         </div>
@@ -34,9 +39,9 @@ export function BlogCard({ post, className, featured = false }: BlogCardProps) {
         </h3>
         <p className={cn(
           "mt-2 text-[#b4b4b4] leading-relaxed flex-1",
-          featured ? "text-sm" : "text-xs line-clamp-2"
+          featured ? "text-sm line-clamp-3" : "text-xs line-clamp-2"
         )}>
-          {post.excerpt}
+          {post.description}
         </p>
         <div className="mt-3 flex items-center justify-between">
           <div className="flex flex-wrap gap-2">
@@ -47,12 +52,12 @@ export function BlogCard({ post, className, featured = false }: BlogCardProps) {
               </span>
             ))}
           </div>
-          <ArrowUpRight
+          <ArrowRight
             size={16}
             className="text-zinc-600 group-hover:text-red-400 transition-colors shrink-0"
           />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

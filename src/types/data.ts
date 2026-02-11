@@ -47,16 +47,6 @@ export interface Skill {
   proficiency: number; // 0-100
 }
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  url: string;
-  tags: string[];
-}
-
 export interface Testimonial {
   id: string;
   name: string;
@@ -77,4 +67,19 @@ export interface SiteConfig {
 export interface NavItem {
   label: string;
   href: string;
+}
+
+export interface BlogPostMeta {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  readTime: string;
+  tags: string[];
+  coverImage?: string;
+  published: boolean;
+}
+
+export interface BlogPostFull extends BlogPostMeta {
+  content: string;
 }

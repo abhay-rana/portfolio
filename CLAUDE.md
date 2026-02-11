@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+*Last updated: 11 Feb 2026*
+
 ## Commands
 
 - **Dev server**: `npm run dev` (runs on port 3001)
@@ -11,28 +13,54 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-Single-page portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind CSS v4**, **Framer Motion**, and **TypeScript**.
+Portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind CSS v4**, **Framer Motion**, and **TypeScript**. Contains a homepage (all sections) and a markdown-powered blog with SSG.
 
 ### Path alias
 
 `~/` maps to `./src/` (configured in tsconfig.json). Always use `~/` for imports.
 
+### Routes
+
+| Route | File | Rendering |
+|-------|------|-----------|
+| `/` | `src/app/page.tsx` | Static — homepage with all sections |
+| `/blog` | `src/app/blog/page.tsx` | Static — blog list page |
+| `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | SSG — individual blog posts via `generateStaticParams` |
+
 ### Source structure
 
-- `src/app/` — Single route (`page.tsx`) composing all sections top-to-bottom; `layout.tsx` loads three Google Fonts (Inter, JetBrains Mono, Playfair Display) and sets metadata from `siteConfig`
-- `src/components/sections/` — Page sections rendered in order: Hero → About → Projects → TechStack → Experience → Blog → Testimonials → ResumeCTA → Contact
-- `src/components/ui/` — Reusable UI components (Navbar, Footer, Button, AnimatedSection, cards, badges)
+- `src/app/` — App Router pages. `layout.tsx` loads fonts (Inter, JetBrains Mono, Playfair Display), metadata, and shared chrome (StarField, Navbar, Footer). `page.tsx` is the homepage composing all sections.
+- `src/app/blog/` — Blog routes. `page.tsx` (list), `[slug]/page.tsx` (SSG post).
+- `src/components/sections/` — Homepage sections rendered in order: Hero → About → Projects → TechStack → Experience → Blog → Testimonials → ResumeCTA → Contact
+- `src/components/ui/` — Reusable UI components (Navbar, Footer, Button, AnimatedSection, BlogCard, cards, badges)
+- `src/components/blog/` — Blog-specific components (BlogHeader, ReadingProgress)
 - `src/components/effects/` — Visual effects (StarField, CursorFollower, GradientOrb, DotGrid, GlowEffect)
-- `src/data/` — All content as typed TypeScript constants (personal info, projects, skills, experience, blog, testimonials, navigation, site-config). Edit these files to update portfolio content.
-- `src/types/data.ts` — Shared TypeScript interfaces for all data structures
+- `src/data/` — Portfolio content as typed TypeScript constants (personal info, projects, skills, experience, testimonials, navigation, site-config). Blog data comes from `content/blog/` markdown, not `src/data/`.
+- `src/types/data.ts` — Shared TypeScript interfaces for all data structures (including `BlogPostMeta`, `BlogPostFull`)
+- `src/lib/blog.ts` — Blog parsing layer (server-only): reads markdown from `content/blog/`, parses frontmatter, renders HTML via unified pipeline
 - `src/lib/cn.ts` — `cn()` utility combining clsx + tailwind-merge
 - `src/lib/motion.ts` — Reusable Framer Motion variants (fadeInUp, fadeIn, scaleIn, slideInLeft/Right, staggerContainer, staggerItem)
-- `src/hooks/useActiveSection.ts` — IntersectionObserver hook for navbar active state
+- `src/hooks/useActiveSection.ts` — IntersectionObserver hook for navbar active state (homepage only)
+- `content/blog/` — Markdown blog posts with YAML frontmatter (project root, not inside `src/`)
 
 ### Key patterns
 
 - **Client components**: All interactive components use `"use client"`. Section components that animate use `AnimatedSection` wrapper (Framer Motion `useInView` with `once: true`).
-- **Data-driven content**: All portfolio content lives in `src/data/`. Components import and render these typed constants — no hardcoded content in components.
-- **Design system**: Dark theme (#0a0a0a background) with warm red accent (#ef4444). CSS custom properties defined in `globals.css` under `@theme inline`. Custom utility classes: `.glass`, `.glass-hover`, `.glow-accent`, `.bento-grid`, `.bento-card`.
+- **Data-driven content**: Portfolio content lives in `src/data/`. Blog content lives in `content/blog/` as markdown files. Components import and render these — no hardcoded content in components.
+- **Design system**: Dark theme (#0a0a0a background) with warm red accent (#ef4444). CSS custom properties defined in `globals.css` under `@theme inline`. Custom utility classes: `.glass`, `.glass-hover`, `.glow-accent`, `.bento-grid`, `.bento-card`, `.prose-blog`.
 - **Tailwind v4**: Uses `@import "tailwindcss"` and `@theme inline` syntax (not v3 `@tailwind` directives). PostCSS plugin is `@tailwindcss/postcss`.
 - **Icons**: lucide-react for all icons.
+- **Shared layout chrome**: StarField, Navbar, and Footer live in `layout.tsx` (shared across all routes). CursorFollower is homepage-only (stays in `page.tsx`).
+- **Dual-mode Navbar**: On homepage (`/`), uses IntersectionObserver for active section + hash hrefs. On blog pages (`/blog/*`), uses pathname detection for active state + prefixed hrefs (`/#section`). Logo links to `#hero` on homepage, `/` elsewhere.
+
+---
+
+## Blog System
+
+Posts live in `content/blog/*.md` with YAML frontmatter. Parsed by `src/lib/blog.ts` (server-only, unified/remark pipeline). SSG via `generateStaticParams`. Zero client-side blog deps.
+
+**Add a post:** Create `content/blog/your-slug.md` with frontmatter (`title`, `slug`, `date`, `description`, `tags[]`, `published: true`) → `npm run build`.
+
+**Key files:** `src/lib/blog.ts` (parsing), `src/components/blog/BlogHeader.tsx` (header), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` in `globals.css` (post styling).
+
+**Full docs:** See `docs/blog-architecture.md` for detailed architecture, frontmatter schema, rendering pipeline, and component reference.
