@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/convert-images.mjs",
     "dev": "next dev -p 3001",
+    "prebuild": "node scripts/convert-images.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -12,6 +14,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.0",
     "gray-matter": "^4.0.3",
+    "heic-convert": "^2.1.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -23,6 +26,7 @@
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^3.4.0",
     "unified": "^11.0.5"
   },

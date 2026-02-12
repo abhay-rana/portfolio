@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated profile images (converted from .heic at build time)
+public/profile/*.webp

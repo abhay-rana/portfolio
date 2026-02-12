@@ -9,13 +9,14 @@ import { Testimonials } from "~/components/sections/Testimonials";
 import { ResumeCTA } from "~/components/sections/ResumeCTA";
 import { Contact } from "~/components/sections/Contact";
 import { getLatestPosts } from "~/lib/blog";
+import { getProfileImages } from "~/lib/profile";
 
 export default function Home() {
   return (
     <>
       <CursorFollower />
       <Hero />
-      <About />
+      <About profileImages={getProfileImages()} />
       <Projects />
       <TechStack />
       <Experience />
