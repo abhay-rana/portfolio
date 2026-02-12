@@ -43,8 +43,7 @@ export interface SkillCategory {
 
 export interface Skill {
   name: string;
-  icon?: string;
-  proficiency: number; // 0-100
+  icon: string;
 }
 
 export interface Testimonial {

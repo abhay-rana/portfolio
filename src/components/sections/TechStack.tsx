@@ -11,11 +11,14 @@ export function TechStack() {
   return (
     <AnimatedSection id="skills">
       <div className="mx-auto max-w-4xl">
-        <SectionHeading title="Tech Stack" subtitle="Technologies I work with" />
-        <div className="space-y-12">
+        <SectionHeading
+          title="Skills & Expertise"
+          subtitle="A collection of technologies I'm proficient with, from languages to frameworks and tools"
+        />
+        <div className="space-y-10">
           {skillCategories.map((category) => (
             <div key={category.category}>
-              <h3 className="mb-5 text-sm font-mono font-medium uppercase tracking-[0.15em] text-red-400">
+              <h3 className="mb-4 text-lg font-semibold text-zinc-200">
                 {category.category}
               </h3>
               <motion.div
@@ -23,7 +26,7 @@ export function TechStack() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+                className="flex flex-wrap gap-3"
               >
                 {category.skills.map((skill) => (
                   <motion.div key={skill.name} variants={staggerItem}>
