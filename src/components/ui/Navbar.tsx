@@ -18,7 +18,7 @@ export function Navbar() {
   const activeSection = useActiveSection(sectionIds);
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-[850px]">
       <div className="rounded-2xl bg-zinc-900/90 backdrop-blur-xl border border-zinc-800 px-4 py-3 md:px-6">
         <div className="flex items-center justify-between">
           <Link href={isHome ? "#hero" : "/"} className="text-lg font-extrabold text-white">
@@ -54,6 +54,14 @@ export function Navbar() {
                 </Link>
               );
             })}
+            <a
+              href={personalInfo.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 text-sm font-medium rounded-xl text-red-400 hover:bg-red-500/10 transition-colors"
+            >
+              Resume
+            </a>
           </div>
 
           {/* Mobile toggle */}
@@ -98,6 +106,15 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-3 rounded-xl text-base font-bold transition-all text-red-400 hover:bg-red-500/10"
+              >
+                Resume
+              </a>
             </div>
           </motion.div>
         )}
