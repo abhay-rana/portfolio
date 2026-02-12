@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 import { cn } from "~/lib/cn";
 import type { Testimonial } from "~/types/data";
 
@@ -24,13 +26,36 @@ export function TestimonialCard({ testimonial, className, rotation = 0 }: Testim
         {testimonial.text}
       </p>
       <div className="mt-5 flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-sm font-extrabold text-white">
-          {testimonial.name.charAt(0)}
-        </div>
+        {testimonial.avatar ? (
+          <Image
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+        ) : (
+          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-sm font-extrabold text-white">
+            {testimonial.name.charAt(0)}
+          </div>
+        )}
         <div>
           <p className="text-sm font-bold text-[#fafafa]">{testimonial.name}</p>
           <p className="text-xs text-zinc-500">
-            {testimonial.role} at <span className="text-red-400/70">{testimonial.company}</span>
+            {testimonial.role} at{" "}
+            {testimonial.profileUrl ? (
+              <a
+                href={testimonial.profileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-red-400/70 hover:underline hover:text-red-400 transition-colors"
+              >
+                {testimonial.company}
+                <ExternalLink className="size-3" />
+              </a>
+            ) : (
+              <span className="text-red-400/70">{testimonial.company}</span>
+            )}
           </p>
         </div>
       </div>

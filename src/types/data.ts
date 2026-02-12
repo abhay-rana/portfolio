@@ -54,6 +54,7 @@ export interface Testimonial {
   company: string;
   text: string;
   avatar?: string;
+  profileUrl?: string;
 }
 
 export interface SiteConfig {
