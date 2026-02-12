@@ -12,17 +12,17 @@ export const personalInfo: PersonalInfo = {
   socials: [
     {
       platform: "GitHub",
-      url: "https://github.com/abhayrana",
+      url: "https://github.com/abhay-rana",
       icon: "github",
     },
     {
       platform: "LinkedIn",
-      url: "https://linkedin.com/in/abhayrana",
+      url: "https://www.linkedin.com/in/abhay-rana-0x/",
       icon: "linkedin",
     },
     {
       platform: "Twitter",
-      url: "https://twitter.com/abhayrana",
+      url: "https://x.com/Ranaji_0x",
       icon: "twitter",
     },
   ],

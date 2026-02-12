@@ -16,6 +16,12 @@ export interface SocialLink {
   icon: string;
 }
 
+export interface ProjectHighlight {
+  icon: string;
+  label: string;
+  detail: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -23,8 +29,11 @@ export interface Project {
   techStack: string[];
   liveUrl?: string;
   githubUrl?: string;
+  npmUrl?: string;
   image: string;
   featured: boolean;
+  disabled?: boolean;
+  highlights?: ProjectHighlight[];
 }
 
 export interface Experience {
