@@ -1,6 +1,6 @@
 # DOCS-MAP — Code → Documentation Routing
 
-*Last updated: 11 Feb 2026*
+*Last updated: 12 Feb 2026*
 
 Smart routing for `/update-docs`. Maps code changes to specific doc files/sections.
 
@@ -18,6 +18,10 @@ Smart routing for `/update-docs`. Maps code changes to specific doc files/sectio
 | `src/components/ui/BlogCard.tsx` | `docs/blog-architecture.md` | `#components` |
 | `src/components/sections/Blog.tsx` | `docs/blog-architecture.md` | `#components` |
 | `src/types/data.ts` | `docs/blog-architecture.md` | `#types` |
+| `scripts/convert-images.mjs` | `docs/profile-images.md` | `#heic-conversion-pipeline` |
+| `src/lib/profile.ts` | `docs/profile-images.md` | `#image-reader` |
+| `src/components/sections/About.tsx` | `docs/profile-images.md` | `#carousel-component` |
+| `public/profile/**` | `docs/profile-images.md` | `#how-to-add-photos` |
 | `src/components/sections/**` | `CLAUDE.md` | `#source-structure` |
 | `src/components/ui/**` | `CLAUDE.md` | `#source-structure` |
 | `src/components/effects/**` | `CLAUDE.md` | `#source-structure` |

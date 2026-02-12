@@ -2,12 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-*Last updated: 11 Feb 2026*
+*Last updated: 12 Feb 2026*
 
 ## Commands
 
-- **Dev server**: `npm run dev` (runs on port 3001)
-- **Build**: `npm run build`
+- **Dev server**: `npm run dev` (runs on port 3001; `predev` auto-converts HEIC images)
+- **Build**: `npm run build` (`prebuild` auto-converts HEIC images)
 - **Lint**: `npm run lint` (ESLint with Next.js core-web-vitals + TypeScript rules)
 - **Start prod**: `npm run start`
 
@@ -38,8 +38,10 @@ Portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind 
 - `src/data/` — Portfolio content as typed TypeScript constants (personal info, projects, skills, experience, testimonials, navigation, site-config). Blog data comes from `content/blog/` markdown, not `src/data/`.
 - `src/types/data.ts` — Shared TypeScript interfaces for all data structures (including `BlogPostMeta`, `BlogPostFull`)
 - `src/lib/blog.ts` — Blog parsing layer (server-only): reads markdown from `content/blog/`, parses frontmatter, renders HTML via unified pipeline
+- `src/lib/profile.ts` — Build-time reader for profile images in `public/profile/`
 - `src/lib/cn.ts` — `cn()` utility combining clsx + tailwind-merge
 - `src/lib/motion.ts` — Reusable Framer Motion variants (fadeInUp, fadeIn, scaleIn, slideInLeft/Right, staggerContainer, staggerItem)
+- `scripts/convert-images.mjs` — HEIC → WebP conversion script (runs via predev/prebuild hooks)
 - `src/hooks/useActiveSection.ts` — IntersectionObserver hook for navbar active state (homepage only)
 - `content/blog/` — Markdown blog posts with YAML frontmatter (project root, not inside `src/`)
 
@@ -64,3 +66,15 @@ Posts live in `content/blog/*.md` with YAML frontmatter. Parsed by `src/lib/blog
 **Key files:** `src/lib/blog.ts` (parsing), `src/components/blog/BlogHeader.tsx` (header), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` in `globals.css` (post styling).
 
 **Full docs:** See `docs/blog-architecture.md` for detailed architecture, frontmatter schema, rendering pipeline, and component reference.
+
+---
+
+## Profile Images
+
+Drop `.heic`/`.jpg`/`.png` files into `public/profile/`. HEIC files are auto-converted to `.webp` via `predev`/`prebuild` hooks (`heic-convert` → `sharp` pipeline). The About section carousel auto-advances every 3s with scale+fade transitions.
+
+**Add a photo:** Drop image into `public/profile/` → `npm run dev`. Generated `.webp` files are gitignored.
+
+**Key files:** `scripts/convert-images.mjs` (conversion), `src/lib/profile.ts` (reader), `src/components/sections/About.tsx` (carousel).
+
+**Full docs:** See `docs/profile-images.md` for pipeline details, architecture diagram, and component reference.

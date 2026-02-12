@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wrench } from "lucide-react";
@@ -23,6 +23,17 @@ export function About({ profileImages = [] }: AboutProps) {
   const imageCount = profileImages.length;
   const hasMultiple = imageCount > 1;
 
+  const nextImage = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % imageCount);
+  }, [imageCount]);
+
+  // Auto-advance every 3s when multiple images
+  useEffect(() => {
+    if (!hasMultiple) return;
+    const timer = setInterval(nextImage, 3000);
+    return () => clearInterval(timer);
+  }, [hasMultiple, nextImage]);
+
   return (
     <AnimatedSection id="about">
       <div className="mx-auto max-w-4xl">
@@ -43,10 +54,10 @@ export function About({ profileImages = [] }: AboutProps) {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentIndex}
-                    initial={hasMultiple ? { opacity: 0 } : false}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    initial={hasMultiple ? { opacity: 0, scale: 1.05 } : false}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                     className="absolute inset-0"
                   >
                     <Image
