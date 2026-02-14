@@ -8,6 +8,37 @@ import { ReadingProgress } from "~/components/blog/ReadingProgress";
 import { TableOfContents } from "~/components/blog/TableOfContents";
 import { VideoAutoplay } from "~/components/blog/VideoAutoplay";
 import { siteConfig } from "~/data/site-config";
+import type { BlogPostFull } from "~/types/data";
+
+function getBlogPostJsonLd(post: BlogPostFull) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    image: post.coverImage
+      ? `${siteConfig.url}${post.coverImage}`
+      : undefined,
+    datePublished: post.date,
+    dateModified: post.date,
+    wordCount: post.wordCount,
+    author: {
+      "@type": "Person",
+      name: siteConfig.author,
+      url: siteConfig.url,
+    },
+    publisher: {
+      "@type": "Person",
+      name: siteConfig.author,
+      url: siteConfig.url,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/blog/${post.slug}`,
+    },
+    keywords: post.tags.join(", "),
+  };
+}
 
 export async function generateStaticParams() {
   const slugs = getAllSlugs();
@@ -29,19 +60,26 @@ export async function generateMetadata({
   return {
     title: `${post.title} | ${siteConfig.author}`,
     description: post.description,
+    keywords: post.tags,
+    authors: [{ name: siteConfig.author, url: siteConfig.url }],
     alternates: { canonical: `${siteConfig.url}/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
       publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [siteConfig.url],
+      tags: post.tags,
       url: `${siteConfig.url}/blog/${slug}`,
+      siteName: siteConfig.author,
       images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      creator: "@Ranaji_0x",
       images: post.coverImage ? [post.coverImage] : undefined,
     },
   };
@@ -58,8 +96,14 @@ export default async function BlogPostPage({
 
   const headings = extractHeadings(post.content);
 
+  const jsonLd = getBlogPostJsonLd(post);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ReadingProgress />
       <div className="pb-16 md:pb-24">
         {/* Gradient hero bg — visual only, pulls behind navbar */}

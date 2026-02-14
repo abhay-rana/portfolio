@@ -122,5 +122,6 @@ export async function getPostBySlug(
     coverImage: data.coverImage as string | undefined,
     published: true,
     content: String(result),
+    wordCount: stats.words,
   };
 }

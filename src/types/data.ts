@@ -93,4 +93,5 @@ export interface BlogPostMeta {
 
 export interface BlogPostFull extends BlogPostMeta {
   content: string;
+  wordCount: number;
 }

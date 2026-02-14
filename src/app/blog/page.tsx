@@ -6,7 +6,16 @@ import { BlogCard } from "~/components/ui/BlogCard";
 
 export const metadata: Metadata = {
   title: "Blog | Abhay Rana",
-  description: "Thoughts on code, architecture, and design",
+  description:
+    "Articles on React, TypeScript, web development, architecture, and modern frontend tooling by Abhay Rana.",
+  alternates: { canonical: "https://www.abhayrana.com/blog" },
+  openGraph: {
+    title: "Blog | Abhay Rana",
+    description:
+      "Articles on React, TypeScript, web development, architecture, and modern frontend tooling.",
+    url: "https://www.abhayrana.com/blog",
+    type: "website",
+  },
 };
 
 export default function BlogPage() {

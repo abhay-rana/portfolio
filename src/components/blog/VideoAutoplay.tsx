@@ -28,43 +28,72 @@ function enhanceVideo(video: HTMLVideoElement) {
   const wrapper = video.closest(".blog-video") as HTMLElement | null;
   if (!wrapper) return;
 
-  // Enable native controls so user can play/pause/volume/fullscreen
   video.controls = true;
   video.muted = true;
   video.playsInline = true;
+  // Switch from metadata-only to full preload so the browser buffers
+  video.preload = "auto";
 
-  // Make wrapper position relative for overlay
   wrapper.style.position = "relative";
 
   const overlay = createLoadingOverlay();
   wrapper.appendChild(overlay);
 
+  let removed = false;
+
   function hideOverlay() {
+    if (removed) return;
+    removed = true;
     overlay.classList.add("blog-video-overlay-hidden");
-    // Remove from DOM after fade-out transition
     setTimeout(() => overlay.remove(), 400);
+    cleanupListeners();
   }
 
-  // If the video already has enough data (cached), hide immediately
-  if (video.readyState >= 3) {
+  // Clicking the overlay tries to play and dismisses it
+  function onOverlayClick() {
+    attemptPlay(video);
     hideOverlay();
-    return;
+  }
+  overlay.style.cursor = "pointer";
+  overlay.addEventListener("click", onOverlayClick);
+
+  // Multiple event listeners — whichever fires first wins
+  function onVideoReady() {
+    hideOverlay();
   }
 
-  // Hide overlay once the video can actually play through
-  video.addEventListener("canplaythrough", hideOverlay, { once: true });
-
-  // Fallback: if canplaythrough never fires, hide after canplay
-  video.addEventListener(
+  const events = [
     "canplay",
-    () => {
-      // Give a small buffer for canplaythrough to fire first
-      setTimeout(() => {
-        if (wrapper.contains(overlay)) hideOverlay();
-      }, 500);
-    },
-    { once: true }
-  );
+    "canplaythrough",
+    "playing",
+    "timeupdate",
+    "loadeddata",
+  ];
+  events.forEach((e) => video.addEventListener(e, onVideoReady, { once: true }));
+
+  // Poll readyState as safety net (catches events that fired before mount)
+  const interval = setInterval(() => {
+    if (video.readyState >= 2 || !video.paused) {
+      hideOverlay();
+    }
+  }, 300);
+
+  // Hard timeout — never block the user for more than 8 seconds
+  const timeout = setTimeout(() => {
+    hideOverlay();
+  }, 8000);
+
+  function cleanupListeners() {
+    clearInterval(interval);
+    clearTimeout(timeout);
+    overlay.removeEventListener("click", onOverlayClick);
+    events.forEach((e) => video.removeEventListener(e, onVideoReady));
+  }
+
+  // Immediate check: video might already be ready or playing
+  if (video.readyState >= 2 || !video.paused) {
+    hideOverlay();
+  }
 }
 
 export function VideoAutoplay() {
@@ -74,10 +103,8 @@ export function VideoAutoplay() {
     );
     if (!videos.length) return;
 
-    // Enhance each video with loading overlay + controls
     videos.forEach(enhanceVideo);
 
-    // Autoplay on scroll
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
