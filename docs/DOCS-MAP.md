@@ -1,6 +1,6 @@
 # DOCS-MAP — Code → Documentation Routing
 
-*Last updated: 12 Feb 2026*
+*Last updated: 13 Feb 2026*
 
 Smart routing for `/update-docs`. Maps code changes to specific doc files/sections.
 

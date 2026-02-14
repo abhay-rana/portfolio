@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-*Last updated: 12 Feb 2026*
+*Last updated: 13 Feb 2026*
 
 ## Commands
 
@@ -33,11 +33,11 @@ Portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind 
 - `src/app/blog/` — Blog routes. `page.tsx` (list), `[slug]/page.tsx` (SSG post).
 - `src/components/sections/` — Homepage sections rendered in order: Hero → About → Projects → TechStack → Experience → Blog → Testimonials → ResumeCTA → Contact
 - `src/components/ui/` — Reusable UI components (Navbar, Footer, Button, AnimatedSection, BlogCard, cards, badges)
-- `src/components/blog/` — Blog-specific components (BlogHeader, ReadingProgress)
+- `src/components/blog/` — Blog-specific components (BlogHeader, TableOfContents, ReadingProgress)
 - `src/components/effects/` — Visual effects (StarField, CursorFollower, GradientOrb, DotGrid, GlowEffect)
 - `src/data/` — Portfolio content as typed TypeScript constants (personal info, projects, skills, experience, testimonials, navigation, site-config). Blog data comes from `content/blog/` markdown, not `src/data/`.
 - `src/types/data.ts` — Shared TypeScript interfaces for all data structures (including `BlogPostMeta`, `BlogPostFull`)
-- `src/lib/blog.ts` — Blog parsing layer (server-only): reads markdown from `content/blog/`, parses frontmatter, renders HTML via unified pipeline
+- `src/lib/blog.ts` — Blog parsing layer (server-only): reads markdown from `content/blog/`, parses frontmatter, renders HTML via unified pipeline (includes `rehype-raw` for raw HTML support), exports `extractHeadings()` for TOC
 - `src/lib/profile.ts` — Build-time reader for profile images in `public/profile/`
 - `src/lib/cn.ts` — `cn()` utility combining clsx + tailwind-merge
 - `src/lib/motion.ts` — Reusable Framer Motion variants (fadeInUp, fadeIn, scaleIn, slideInLeft/Right, staggerContainer, staggerItem)
@@ -63,7 +63,7 @@ Posts live in `content/blog/*.md` with YAML frontmatter. Parsed by `src/lib/blog
 
 **Add a post:** Create `content/blog/your-slug.md` with frontmatter (`title`, `slug`, `date`, `description`, `tags[]`, `published: true`) → `npm run build`.
 
-**Key files:** `src/lib/blog.ts` (parsing), `src/components/blog/BlogHeader.tsx` (header), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` in `globals.css` (post styling).
+**Key files:** `src/lib/blog.ts` (parsing + heading extraction), `src/components/blog/BlogHeader.tsx` (header + cover image), `src/components/blog/TableOfContents.tsx` (sticky sidebar TOC at `xl:`), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` in `globals.css` (post styling + visual components: callouts, stats, comparisons).
 
 **Full docs:** See `docs/blog-architecture.md` for detailed architecture, frontmatter schema, rendering pipeline, and component reference.
 

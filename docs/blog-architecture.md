@@ -1,6 +1,6 @@
 # Blog Architecture
 
-*Last updated: 11 Feb 2026*
+*Last updated: 13 Feb 2026*
 
 Markdown-powered static blog using Next.js SSG. Posts are authored as `.md` files, parsed at build time, and served as static HTML.
 
@@ -39,7 +39,7 @@ Your markdown content here...
 | `description` | string | Yes | Card text, meta description, OpenGraph |
 | `tags` | string[] | Yes | YAML array. Rendered as pills in header and dots in cards |
 | `published` | boolean | Yes | `false` = draft (excluded from build) |
-| `coverImage` | string | No | Reserved for future use (not yet rendered) |
+| `coverImage` | string | No | Path to cover image (e.g. `/blog/cover.png`). Rendered in `BlogHeader` + used for OG/Twitter cards |
 
 ---
 
@@ -75,11 +75,20 @@ Defined in `src/lib/blog.ts`, runs at build time only (zero client-side cost).
 ```
 remark-parse                    ← Markdown → MDAST
   → remark-rehype               ← MDAST → HAST (allowDangerousHtml: true)
-    → rehype-slug                ← Adds id attributes to headings
-      → rehype-autolink-headings ← Wraps headings in <a> links (behavior: 'wrap')
-        → rehype-pretty-code     ← Syntax highlighting via Shiki (theme: one-dark-pro)
-          → rehype-stringify      ← HAST → HTML string
+    → rehype-raw                 ← Re-parses raw HTML nodes into proper HAST
+      → rehype-slug              ← Adds id attributes to headings
+        → rehype-autolink-headings ← Wraps headings in <a> links (behavior: 'wrap')
+          → rehype-pretty-code   ← Syntax highlighting via Shiki (theme: one-dark-pro)
+            → rehype-stringify    ← HAST → HTML string
 ```
+
+`rehype-raw` is required for raw HTML in markdown (callout boxes, stat blocks, comparison grids, etc.) to render. Without it, raw HTML nodes are silently dropped.
+
+### Exported Utilities
+
+| Function | Returns | Purpose |
+|----------|---------|---------|
+| `extractHeadings(html)` | `BlogHeading[]` | Regex-extracts `<h2>` ids and text from rendered HTML for the TOC sidebar |
 
 ### Dependencies (all build-time only)
 
@@ -87,6 +96,7 @@ remark-parse                    ← Markdown → MDAST
 |---------|---------|
 | `gray-matter` | Parse YAML frontmatter from .md |
 | `unified` + `remark-parse` + `remark-rehype` + `rehype-stringify` | Markdown → HTML pipeline |
+| `rehype-raw` | Parse raw HTML in markdown into proper HAST nodes |
 | `rehype-pretty-code` | Syntax highlighting (Shiki engine) |
 | `rehype-slug` + `rehype-autolink-headings` | Heading IDs + clickable anchors |
 | `reading-time` | Auto-compute read time from word count |
@@ -120,7 +130,8 @@ interface BlogPostFull extends BlogPostMeta {
 
 | Component | File | Server/Client | Purpose |
 |-----------|------|---------------|---------|
-| `BlogHeader` | `src/components/blog/BlogHeader.tsx` | Server | Title (6xl), description, formatted date, read time, tag pills, gradient divider |
+| `BlogHeader` | `src/components/blog/BlogHeader.tsx` | Server | Title (6xl), description, formatted date, read time, tag pills, cover image (if `coverImage` set), gradient divider |
+| `TableOfContents` | `src/components/blog/TableOfContents.tsx` | Client | Sticky sidebar TOC on `xl:` screens. `IntersectionObserver` highlights active `<h2>`. Hidden below `xl` breakpoint |
 | `ReadingProgress` | `src/components/blog/ReadingProgress.tsx` | Client | 3px red gradient progress bar fixed at viewport top. Tracks scroll through `<article>` element using `scaleX` transform |
 | `BlogCard` | `src/components/ui/BlogCard.tsx` | Server | `<Link>` card to `/blog/[slug]`. `featured` prop controls bento size + min-height. Formats dates via `toLocaleDateString` |
 | `Blog` (section) | `src/components/sections/Blog.tsx` | Client | Homepage section. Accepts `posts: BlogPostMeta[]` prop. Featured layout (1 large + 3 small) if ≥4 posts, flat grid otherwise. "View all posts →" link |
@@ -132,7 +143,7 @@ interface BlogPostFull extends BlogPostMeta {
 | Route | File | Rendering | Metadata |
 |-------|------|-----------|----------|
 | `/blog` | `src/app/blog/page.tsx` | Static | Static export: `title: "Blog \| Abhay Rana"` |
-| `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | SSG | `generateMetadata()`: per-post title, description, canonical URL, OpenGraph (type: article, publishedTime) |
+| `/blog/[slug]` | `src/app/blog/[slug]/page.tsx` | SSG | `generateMetadata()`: per-post title, description, canonical URL, OpenGraph (type: article, publishedTime, image from `coverImage`), Twitter `summary_large_image` card |
 
 `generateStaticParams()` in `[slug]/page.tsx` calls `getAllSlugs()` to pre-build all published posts at build time.
 
@@ -155,10 +166,27 @@ Blog post body uses `.prose-blog` class in `src/app/globals.css`:
 - HR: gradient divider (transparent → red → transparent)
 - rehype-pretty-code: `[data-rehype-pretty-code-figure]` wrapped with margin, border-radius, overflow hidden. `[data-line]`, `[data-highlighted-line]` for line highlighting
 
+### Visual blog components (raw HTML in markdown)
+
+These CSS classes style raw HTML blocks inside `.prose-blog`. Enabled by `rehype-raw`.
+
+| Class | Purpose |
+|-------|---------|
+| `.callout`, `.callout-tldr`, `.callout-tip`, `.callout-warning`, `.callout-key` | Colored info boxes with left border accent (red/green/amber/blue) |
+| `.comparison`, `.comparison-card`, `.comparison-before`, `.comparison-after` | Side-by-side grid cards (red "before" / green "after") |
+| `.stat-grid`, `.stat-block`, `.stat-number`, `.stat-label` | 3-column stat highlights with big red numbers |
+| `.blog-meme`, `.meme-caption` | Styled blog images with italic caption |
+| `.pull-quote` | Large highlighted statement with red left border |
+| `.section-break` | Styled divider between major sections |
+| `.badge-row`, `.github-cta` | shields.io badge row + red CTA button |
+
 ### Blog post page layout
 
 - Gradient hero area extends behind navbar using `-mt-16 pt-16` trick (no gap between navbar and glow)
-- Header container uses `max-w-4xl`, article body uses `max-w-[1000px]` — visual narrowing funnel
+- **Unified container** `max-w-[1000px] xl:max-w-[1280px]` holds both header and article body
+- Header sits above the grid with `xl:mr-[260px]` to align with the article column
+- At `xl:` breakpoint, article body + TOC sidebar use CSS Grid `[1fr_220px]` with `gap-10`
+- TOC sidebar is hidden below `xl:` (`hidden xl:block`), sticky at `top-24`
 - Article wrapped in glass container: `bg-zinc-900/30 border-zinc-800/50 rounded-2xl`
 - Content fade-in: `.blog-fade-in` CSS animation (0.6s ease-out translateY)
 - Reading progress: 3px red gradient bar at `z-[60]` fixed to viewport top

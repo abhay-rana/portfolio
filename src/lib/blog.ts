@@ -5,11 +5,28 @@ import readingTime from "reading-time";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeStringify from "rehype-stringify";
 import type { BlogPostMeta, BlogPostFull } from "~/types/data";
+
+export interface BlogHeading {
+  id: string;
+  text: string;
+}
+
+export function extractHeadings(html: string): BlogHeading[] {
+  const headings: BlogHeading[] = [];
+  const regex = /<h2\s+id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const text = match[2].replace(/<[^>]*>/g, "").trim();
+    if (text) headings.push({ id: match[1], text });
+  }
+  return headings;
+}
 
 const CONTENT_DIR = path.resolve(process.cwd(), "content/blog");
 
@@ -88,6 +105,7 @@ export async function getPostBySlug(
   const result = await unified()
     .use(remarkParse)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })
     .use(rehypePrettyCode, { theme: "one-dark-pro" })

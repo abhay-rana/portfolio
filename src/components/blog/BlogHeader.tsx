@@ -12,7 +12,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
   });
 
   return (
-    <header className="mb-12">
+    <header className="mb-6">
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
         {post.title}
       </h1>
@@ -36,6 +36,15 @@ export function BlogHeader({ post }: BlogHeaderProps) {
           </span>
         ))}
       </div>
+      {post.coverImage && (
+        <div className="mt-8 -mx-2 md:-mx-6">
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className="w-full rounded-xl border border-zinc-800/50"
+          />
+        </div>
+      )}
       <div className="mt-8 h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent" />
     </header>
   );
