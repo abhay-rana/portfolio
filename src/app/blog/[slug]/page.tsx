@@ -6,7 +6,6 @@ import { getAllSlugs, getPostBySlug, extractHeadings } from "~/lib/blog";
 import { BlogHeader } from "~/components/blog/BlogHeader";
 import { ReadingProgress } from "~/components/blog/ReadingProgress";
 import { TableOfContents } from "~/components/blog/TableOfContents";
-import { VideoAutoplay } from "~/components/blog/VideoAutoplay";
 import { siteConfig } from "~/data/site-config";
 import type { BlogPostFull } from "~/types/data";
 
@@ -133,7 +132,6 @@ export default async function BlogPostPage({
                     className="prose-blog blog-fade-in"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
-                  <VideoAutoplay />
                 </div>
 
                 <div className="mt-16 h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />

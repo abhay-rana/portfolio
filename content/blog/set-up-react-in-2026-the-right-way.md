@@ -167,9 +167,8 @@ npx create-modern-react my-app
 Here's the tool in action — 15 seconds from zero to a production-ready project:
 
 <div class="blog-video">
-<video autoplay muted loop playsinline preload="auto" data-autoplay-on-scroll>
-<source src="/blog/create-modern-react-demo.webm" type="video/webm" />
-<source src="/blog/create-modern-react-demo.mp4" type="video/mp4" />
+<video controls muted loop playsinline preload="metadata" poster="https://res.cloudinary.com/dyo0z6uvw/video/upload/so_0/v1771086613/blog/create-modern-react-demo.jpg">
+<source src="https://res.cloudinary.com/dyo0z6uvw/video/upload/v1771086613/blog/create-modern-react-demo.mp4" type="video/mp4" />
 </video>
 </div>
 
