@@ -10,7 +10,7 @@ published: true
 
 <div class="callout callout-tldr">
 <div class="callout-title">TL;DR</div>
-<p><code>npx create-modern-react my-app</code> gives you React 18 + TypeScript strict + Vite/SWC + Tailwind + shadcn/ui + routing + API layer + linting + 8 AI dev skills — in 15 seconds. No config hell. <a href="https://github.com/abhay-rana/create-modern-react">GitHub repo</a></p>
+<p><code>npx create-modern-react my-app</code> gives you React 19 + TypeScript strict + Vite/SWC + Tailwind + shadcn/ui + routing + API layer + linting + 8 AI dev skills — in 15 seconds. No config hell. <a href="https://github.com/abhay-rana/create-modern-react">GitHub repo</a></p>
 </div>
 
 ## The Friday Night Problem
@@ -39,18 +39,19 @@ But before I show you the tool — let me explain what a production-ready React 
 
 Here's what a modern React project needs to ship real products — not just a demo:
 
-- **Vite 5.4 + SWC:** SWC compiles your TypeScript and JSX **20x faster than Babel.** Zero Babel in your pipeline. Fast HMR, fast builds, no config headaches.
-- **Tailwind CSS 3.4:** Still the most productive CSS framework. With `tailwind.config.js`, CSS variables for theming, dark mode class strategy, and the full shadcn/ui design system built on top.
+- **Vite 7 + SWC:** SWC compiles your TypeScript and JSX **20x faster than Babel.** Zero Babel in your pipeline. Fast HMR, fast builds, no config headaches.
+- **Tailwind CSS v4:** CSS-first configuration — no `tailwind.config.js`, just `@import "tailwindcss"` and `@theme` blocks in your CSS. Dark mode, CSS variables for theming, and the full shadcn/ui design system built on top.
 - **TypeScript strict mode:** Non-negotiable. If your `tsconfig.json` doesn't have `"strict": true`, you're writing JavaScript with extra steps.
-- **ESLint + Prettier:** Pre-configured with 25+ rules covering TypeScript, import validation, React hooks, and unused code detection. One less thing to argue about in PR reviews.
+- **ESLint 9 + Prettier:** Flat config with 25+ rules covering TypeScript, React hooks, and unused code detection. One less thing to argue about in PR reviews.
 - **shadcn/ui:** Not a component library you install — it's components you own. Button, Card, Input, Skeleton, Separator. Built on Radix, styled with Tailwind, customizable because the source is in your repo.
 
 Here's what a clean Vite config looks like with this stack:
 
 ```typescript
-// vite.config.ts — SWC compiler, SVGR, gzip compression, ~/alias
+// vite.config.ts — SWC compiler, Tailwind v4, SVGR, gzip, ~/alias
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import tailwindcss from '@tailwindcss/vite';
 import svgr from 'vite-plugin-svgr';
 import compression from 'vite-plugin-compression';
 import path from 'path';
@@ -58,6 +59,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react(),             // SWC — 20x faster than Babel
+    tailwindcss(),       // Tailwind v4 — CSS-first, zero config
     svgr(),              // import Logo from './logo.svg?react'
     compression({        // gzip production builds automatically
       algorithm: 'gzip',
@@ -85,7 +87,7 @@ export default defineConfig({
 });
 ```
 
-SWC handles your JSX transforms. SVGR lets you import SVGs as React components. Gzip compression runs automatically on production builds. Console statements get stripped. Vendor chunks are split for better caching. **This is what the tool actually generates.**
+SWC handles your JSX transforms. Tailwind v4 runs as a Vite plugin — no PostCSS config, no `tailwind.config.js`. SVGR lets you import SVGs as React components. Gzip compression runs automatically on production builds. Console statements get stripped. Vendor chunks are split for better caching. **This is what the tool actually generates.**
 
 <div class="stat-grid">
 <div class="stat-block">
@@ -113,18 +115,17 @@ npm create vite@latest my-app -- --template react-ts
 cd my-app && npm install
 
 # Now the real work begins
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-npm install -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
-npm install -D eslint-plugin-import eslint-import-resolver-typescript
-npm install -D prettier eslint-config-prettier prettier-plugin-tailwindcss
+npm install -D tailwindcss @tailwindcss/vite
+npm install -D eslint @eslint/js typescript-eslint globals
+npm install -D eslint-plugin-react-hooks
+npm install -D prettier prettier-plugin-tailwindcss
 npm install wouter axios react-hot-toast lucide-react
 npm install clsx tailwind-merge class-variance-authority
 npm install @radix-ui/react-slot
 npm install -D vite-plugin-svgr vite-plugin-compression
 
-# Then configure: vite.config.ts, .eslintrc.cjs, .prettierrc,
-# tsconfig.json paths, tailwind.config.js with CSS variables,
+# Then configure: vite.config.ts, eslint.config.js, .prettierrc,
+# tsconfig.json paths, index.css with @theme tokens,
 # folder structure, error boundaries, Axios interceptors,
 # theme provider, toast system, custom hooks, shadcn/ui components...
 ```
@@ -172,7 +173,7 @@ Here's the tool in action — 15 seconds from zero to a production-ready project
 </video>
 </div>
 
-The core stack ships every time: **React 18 + TypeScript strict + Vite/SWC + Tailwind 3.4 + shadcn/ui + Wouter + Axios + Lucide + toast notifications + ESLint + Prettier + 8 AI development skills.** Then you pick what else you need:
+The core stack ships every time: **React 19 + TypeScript strict + Vite/SWC + Tailwind v4 + shadcn/ui + Wouter + Axios + Lucide + toast notifications + ESLint + Prettier + 8 AI development skills.** Then you pick what else you need:
 
 - **Redux Toolkit + Redux Persist** — typed state management with session persistence
 - **React Hook Form + Zod** — performant forms with runtime validation
@@ -240,14 +241,12 @@ my-app/
 │   │   └── index.ts               # ApiResponse, User, utility types
 │   ├── App.tsx
 │   ├── main.tsx
-│   ├── index.css                  # Tailwind + CSS variable theming
+│   ├── index.css                  # Tailwind v4 + @theme tokens + CSS variables
 │   └── vite-env.d.ts
 ├── vite.config.ts                  # SWC + SVGR + gzip + chunk splitting
-├── tailwind.config.js              # Dark mode + shadcn/ui CSS variables
 ├── tsconfig.json                   # strict: true, ~/* path alias
-├── .eslintrc.cjs                   # 25+ rules, import validation
+├── eslint.config.js                 # ESLint 9 flat config, 25+ rules
 ├── .prettierrc                     # Tailwind plugin included
-├── postcss.config.js
 ├── components.json                 # shadcn/ui configuration
 ├── .env.example
 ├── index.html
