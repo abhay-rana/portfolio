@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-*Last updated: 13 Feb 2026*
+*Last updated: 15 Feb 2026*
 
 ## Commands
 
@@ -29,11 +29,11 @@ Portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind 
 
 ### Source structure
 
-- `src/app/` — App Router pages. `layout.tsx` loads fonts (Inter, JetBrains Mono, Playfair Display), metadata, and shared chrome (StarField, Navbar, Footer). `page.tsx` is the homepage composing all sections.
+- `src/app/` — App Router pages. `layout.tsx` loads fonts (Inter, JetBrains Mono, Playfair Display, Lora), metadata, and shared chrome (StarField, Navbar, Footer). `page.tsx` is the homepage composing all sections.
 - `src/app/blog/` — Blog routes. `page.tsx` (list), `[slug]/page.tsx` (SSG post).
 - `src/components/sections/` — Homepage sections rendered in order: Hero → About → Projects → TechStack → Experience → Blog → Testimonials → ResumeCTA → Contact
 - `src/components/ui/` — Reusable UI components (Navbar, Footer, Button, AnimatedSection, BlogCard, cards, badges)
-- `src/components/blog/` — Blog-specific components (BlogHeader, TableOfContents, ReadingProgress)
+- `src/components/blog/` — Blog-specific components (BlogHeader, TableOfContents, ReadingProgress, BlogThemeProvider, BlogThemeToggle)
 - `src/components/effects/` — Visual effects (StarField, CursorFollower, GradientOrb, DotGrid, GlowEffect)
 - `src/data/` — Portfolio content as typed TypeScript constants (personal info, projects, skills, experience, testimonials, navigation, site-config). Blog data comes from `content/blog/` markdown, not `src/data/`.
 - `src/types/data.ts` — Shared TypeScript interfaces for all data structures (including `BlogPostMeta`, `BlogPostFull`)
@@ -49,7 +49,7 @@ Portfolio site built with **Next.js 16** (App Router), **React 19**, **Tailwind 
 
 - **Client components**: All interactive components use `"use client"`. Section components that animate use `AnimatedSection` wrapper (Framer Motion `useInView` with `once: true`).
 - **Data-driven content**: Portfolio content lives in `src/data/`. Blog content lives in `content/blog/` as markdown files. Components import and render these — no hardcoded content in components.
-- **Design system**: Dark theme (#0a0a0a background) with warm red accent (#ef4444). CSS custom properties defined in `globals.css` under `@theme inline`. Custom utility classes: `.glass`, `.glass-hover`, `.glow-accent`, `.bento-grid`, `.bento-card`, `.prose-blog`.
+- **Design system**: Dark theme (#0a0a0a background) with warm red accent (#ef4444). CSS custom properties defined in `globals.css` under `@theme inline`. Custom utility classes: `.glass`, `.glass-hover`, `.glow-accent`, `.bento-grid`, `.bento-card`, `.prose-blog`. Blog post pages have a scoped dark/light theme system via `.blog-theme` / `.blog-theme-light` CSS classes with `--blog-*` custom properties.
 - **Tailwind v4**: Uses `@import "tailwindcss"` and `@theme inline` syntax (not v3 `@tailwind` directives). PostCSS plugin is `@tailwindcss/postcss`.
 - **Icons**: lucide-react for all icons.
 - **Shared layout chrome**: StarField, Navbar, and Footer live in `layout.tsx` (shared across all routes). CursorFollower is homepage-only (stays in `page.tsx`).
@@ -63,7 +63,7 @@ Posts live in `content/blog/*.md` with YAML frontmatter. Parsed by `src/lib/blog
 
 **Add a post:** Create `content/blog/your-slug.md` with frontmatter (`title`, `slug`, `date`, `description`, `tags[]`, `published: true`) → `npm run build`.
 
-**Key files:** `src/lib/blog.ts` (parsing + heading extraction), `src/components/blog/BlogHeader.tsx` (header + cover image), `src/components/blog/TableOfContents.tsx` (sticky sidebar TOC at `xl:`), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` in `globals.css` (post styling + visual components: callouts, stats, comparisons).
+**Key files:** `src/lib/blog.ts` (parsing + heading extraction), `src/components/blog/BlogHeader.tsx` (header + cover image), `src/components/blog/BlogThemeProvider.tsx` (dark/light theme context + localStorage), `src/components/blog/BlogThemeToggle.tsx` (Sun/Moon toggle), `src/components/blog/TableOfContents.tsx` (sticky sidebar TOC at `xl:`), `src/components/ui/BlogCard.tsx` (cards), `.prose-blog` + `.blog-theme` in `globals.css` (Substack-style serif typography + theme variables).
 
 **Full docs:** See `docs/blog-architecture.md` for detailed architecture, frontmatter schema, rendering pipeline, and component reference.
 
