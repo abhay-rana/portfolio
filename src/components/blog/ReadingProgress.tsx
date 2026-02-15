@@ -30,8 +30,11 @@ export function ReadingProgress() {
   return (
     <div className="fixed top-0 left-0 right-0 z-[60] h-[3px] bg-transparent">
       <div
-        className="h-full bg-gradient-to-r from-red-500 to-red-400 origin-left transition-transform duration-150 ease-out"
-        style={{ transform: `scaleX(${progress})` }}
+        className="h-full origin-left transition-transform duration-150 ease-out"
+        style={{
+          background: "linear-gradient(to right, var(--blog-accent, #ef4444), var(--blog-accent, #ef4444))",
+          transform: `scaleX(${progress})`,
+        }}
       />
     </div>
   );

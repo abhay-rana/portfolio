@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { Inter, JetBrains_Mono, Lora, Playfair_Display } from "next/font/google";
 import { siteConfig } from "~/data/site-config";
 import { StarField } from "~/components/effects/StarField";
 import { Navbar } from "~/components/ui/Navbar";
@@ -18,6 +18,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
   subsets: ["latin"],
   style: ["normal", "italic"],
 });
@@ -56,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} font-sans antialiased bg-[#0a0a0a] text-[#fafafa]`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable} ${lora.variable} font-sans antialiased bg-[#0a0a0a] text-[#fafafa]`}
       >
         <StarField />
         <Navbar />

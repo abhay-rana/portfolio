@@ -34,7 +34,10 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav>
-      <div className="text-xs font-bold uppercase tracking-wider text-red-500 mb-3">
+      <div
+        className="text-xs font-bold uppercase tracking-wider mb-3"
+        style={{ color: "var(--blog-accent)" }}
+      >
         On this page
       </div>
       <ul className="space-y-1">
@@ -42,11 +45,15 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`block py-1 pl-3 text-[13px] leading-snug border-l-2 transition-colors duration-200 ${
-                activeId === id
-                  ? "border-red-500 text-zinc-200"
-                  : "border-transparent text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
-              }`}
+              className="block py-1 pl-3 text-[13px] leading-snug border-l-2 transition-colors duration-200"
+              style={{
+                borderColor:
+                  activeId === id ? "var(--blog-accent)" : "transparent",
+                color:
+                  activeId === id
+                    ? "var(--blog-text-strong)"
+                    : "var(--blog-text-subtle)",
+              }}
             >
               {text}
             </a>

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { getAllSlugs, getPostBySlug, extractHeadings } from "~/lib/blog";
 import { BlogHeader } from "~/components/blog/BlogHeader";
+import { BlogThemeProvider } from "~/components/blog/BlogThemeProvider";
+import { BlogThemeToggle } from "~/components/blog/BlogThemeToggle";
 import { ReadingProgress } from "~/components/blog/ReadingProgress";
 import { TableOfContents } from "~/components/blog/TableOfContents";
 import { siteConfig } from "~/data/site-config";
@@ -104,48 +106,53 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ReadingProgress />
-      <div className="pb-16 md:pb-24">
-        {/* Gradient hero bg — visual only, pulls behind navbar */}
-        <div className="relative -mt-16 pt-16">
-          <div className="absolute inset-x-0 top-0 h-[600px] bg-gradient-to-b from-red-500/[0.07] via-red-500/[0.03] to-transparent pointer-events-none" />
+      <BlogThemeProvider>
+        <div className="min-h-screen -mt-16 pt-16 pb-16 md:pb-24 relative z-10">
+          {/* Theme toggle — fixed on right side of viewport */}
+          <BlogThemeToggle />
 
-          {/* Unified container for consistent width */}
-          <div className="relative mx-auto max-w-[1000px] xl:max-w-[1280px] px-4 pt-12 md:pt-16">
-            {/* Header — above the grid, right margin reserves TOC space for alignment */}
-            <div className="xl:mr-[260px]">
+          {/* Clean container — no gradient hero, no card wrapper */}
+          <div className="mx-auto max-w-[720px] xl:max-w-[1000px] px-5 md:px-8 pt-12 md:pt-16">
+            <div className="mb-8 xl:mr-[260px]">
               <Link
                 href="/blog"
-                className="group inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-red-400 transition-all duration-300 px-3 py-1.5 rounded-lg hover:bg-zinc-800/50 mb-8"
+                className="group inline-flex items-center gap-2 text-sm transition-all duration-300 px-3 py-1.5 rounded-lg"
+                style={{ color: "var(--blog-text-muted)" }}
               >
                 <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
                 Back to Blog
               </Link>
+            </div>
 
+            {/* Header — right margin reserves TOC space at xl: */}
+            <div className="xl:mr-[260px]">
               <BlogHeader post={post} />
             </div>
 
             {/* Article body + TOC sidebar grid */}
             <div className="xl:grid xl:grid-cols-[1fr_220px] xl:gap-10">
               <div className="min-w-0">
-                <div className="rounded-2xl bg-zinc-900/30 border border-zinc-800/50 p-6 md:p-10 lg:p-12">
-                  <article
-                    className="prose-blog blog-fade-in"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
-                  />
-                </div>
+                <article
+                  className="prose-blog blog-fade-in"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
 
-                <div className="mt-16 h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
+                <div
+                  className="mt-16 h-px"
+                  style={{ background: "var(--blog-hr)" }}
+                />
 
                 <Link
                   href="/blog"
-                  className="group inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-red-400 transition-all duration-300 px-3 py-1.5 rounded-lg hover:bg-zinc-800/50 mt-8"
+                  className="group inline-flex items-center gap-2 text-sm transition-all duration-300 px-3 py-1.5 rounded-lg mt-8"
+                  style={{ color: "var(--blog-text-muted)" }}
                 >
                   <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-0.5" />
                   Back to Blog
                 </Link>
               </div>
 
-              {/* TOC sidebar — only alongside article body, sticky */}
+              {/* TOC sidebar — sticky alongside article body */}
               <aside className="hidden xl:block">
                 <div className="sticky top-24">
                   <TableOfContents headings={headings} />
@@ -154,7 +161,7 @@ export default async function BlogPostPage({
             </div>
           </div>
         </div>
-      </div>
+      </BlogThemeProvider>
     </>
   );
 }
